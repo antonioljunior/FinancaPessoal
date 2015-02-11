@@ -17,9 +17,6 @@ namespace AcessoDados
         protected SqlCommand comando;
         protected SqlDataAdapter dataAdapter;
         protected DataTable dataTable = new DataTable();
-                
-        public abstract bool Salvar(T entidade);
-        public abstract bool Excluir(T entidade);
-        public abstract List<T> Selecionar(string where);
+        protected string sql = string.Empty;
     }
 }

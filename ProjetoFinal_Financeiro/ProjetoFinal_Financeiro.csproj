@@ -110,6 +110,10 @@
       <Project>{b5216020-ae5d-41ec-b69d-6f7c1f15d0e3}</Project>
       <Name>Entidades</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{0090177a-ed96-412a-88d1-a81bcdee1eaa}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RegraNegocio\RegraNegocio.csproj">
       <Project>{3105f46f-08d2-4a9e-9854-9b47d53e0c42}</Project>
       <Name>RegraNegocio</Name>
