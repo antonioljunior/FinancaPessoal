@@ -8,32 +8,38 @@ namespace RegraNegocio
 {
     public class Usuario : ICrud<Entidades.Usuario>
     {
+        AcessoDados.Usuario adUsuario = new AcessoDados.Usuario();
+
         public Entidades.Usuario ValidarLogin(Entidades.Usuario usuario)
         {
             if (string.IsNullOrWhiteSpace(usuario.Login) ||
                 string.IsNullOrWhiteSpace(usuario.Senha))
                 throw new Exception("Usuário e a senha devem ser informados");
 
-            AcessoDados.Usuario u = new AcessoDados.Usuario();
-            return u.ValidarLogin(usuario.Login, usuario.Senha);
+            return adUsuario.ValidarLogin(usuario.Login, usuario.Senha);
         }
 
         public bool Salvar(Entidades.Usuario entidade)
         {
-           //Validações
-            AcessoDados.Usuario u = new AcessoDados.Usuario();
-            return u.Salvar(entidade);
+            return adUsuario.Salvar(entidade);
         }
 
         public bool Excluir(Entidades.Usuario entidade)
         {
-            throw new NotImplementedException();
+            ValidarArgumento(entidade.Id);
+            return adUsuario.Excluir(entidade);
         }
 
         public List<Entidades.Usuario> Selecionar(string where)
         {
-            AcessoDados.Usuario u = new AcessoDados.Usuario();
-            return u.Selecionar("");
+            return adUsuario.Selecionar("");
+        }
+
+        public Entidades.Usuario ObterPorID(int? id)
+        {
+            ValidarArgumento(id);
+            return adUsuario.Selecionar(string.
+                Format("where usu_id = {0}", id))[0];
         }
 
         public List<Entidades.Usuario> ListarTodos()
@@ -41,5 +47,12 @@ namespace RegraNegocio
             AcessoDados.Usuario u = new AcessoDados.Usuario();
             return u.Selecionar(string.Empty);
         }
+
+        private void ValidarArgumento(int? id)
+        {
+            if (!id.HasValue)
+                throw new ArgumentException("O ID deve ser informado");
+        }
+
     }
 }

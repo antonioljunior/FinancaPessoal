@@ -14,9 +14,16 @@ namespace ProjetoFinal_Financeiro
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+                CarregarUsuario();
+        }
+
+        private void CarregarUsuario()
+        {
             if (Request.QueryString["Codigo"] != null)
             {
-                Entidades.Usuario u = rnUsuario.Selecionar("")[0];
+                int? id = Request.QueryString["Codigo"].ToInt();
+                Entidades.Usuario u = rnUsuario.ObterPorID(id);
                 txtNome.Text = u.Nome;
                 txtLogin.Text = u.Login;
                 txtSenha.Text = u.Senha;
@@ -36,9 +43,13 @@ namespace ProjetoFinal_Financeiro
                     Cpf = txtCPF.Text.RemoverMascara(),
                     DataCriacao = DateTime.Now
                 };
+
+            if (Request.QueryString["Codigo"] != null)
+                entidade.Id = Request.QueryString["Codigo"].ToInt();
+
             if (rnUsuario.Salvar(entidade))
             {
-                LimparCampos();
+                Response.Redirect(URL.LISTA_USUARIO + "?Status=OK");
             }
             else
             {

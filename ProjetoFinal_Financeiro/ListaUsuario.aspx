@@ -4,8 +4,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <br />
+    <asp:LinkButton Text="Novo Usuário" runat="server"
+        ID="btnNovo" PostBackUrl="~/CadastroUsuario.aspx" />
+    <br />
     <asp:GridView ID="gvUsuario" runat="server" AutoGenerateColumns="false"
-        DataKeyNames="ID"
+        DataKeyNames="ID" CssClass="Grid"   
         OnRowDeleting="gvUsuario_RowDeleting"
         OnRowCommand="gvUsuario_RowCommand"
         OnRowDataBound="gvUsuario_RowDataBound">
@@ -19,12 +23,12 @@
             <asp:TemplateField>
                 <ItemTemplate>
                     <asp:LinkButton Text="Editar" ID="btnEditar"
-                         runat="server" CommandName="Edit" />
+                        runat="server" CommandName="Edit" />
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField>
                 <ItemTemplate>
-                    <asp:LinkButton Text="Excluir" runat="server" 
+                    <asp:LinkButton Text="Excluir" runat="server"
                         OnClientClick="return confirm('Deseja realmente excluir este usuário?');"
                         CommandName="Delete" />
                 </ItemTemplate>

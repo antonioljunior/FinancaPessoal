@@ -31,7 +31,7 @@
                         <asp:MenuItem Text="Usuário" NavigateUrl="~/ListaUsuario.aspx" />
                         <asp:MenuItem Text="Categoria" NavigateUrl="~/ListaUsuario.aspx" />
                     </asp:MenuItem>
-                    <asp:MenuItem Text="Movimento" NavigateUrl="~/Login.aspx" />
+                    <asp:MenuItem Text="Movimento" NavigateUrl="~/CadastroMovimento.aspx" />
                 </Items>
             </asp:Menu>
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">

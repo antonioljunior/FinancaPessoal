@@ -7,5 +7,6 @@ namespace Entidades
 {
     public class Categoria : EntidadeBase
     {
+        public string Descricao { get; set; }
     }
 }

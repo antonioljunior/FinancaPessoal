@@ -14,7 +14,12 @@ namespace ProjetoFinal_Financeiro
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            PopularGrid();
+            if (!IsPostBack)
+            {
+                PopularGrid();
+                if (Request.QueryString["Status"] != null)
+                    Mensagem.Alerta(this, "Usuário cadastrado com sucesso.");
+            }
         }
 
         private void PopularGrid()
@@ -42,7 +47,7 @@ namespace ProjetoFinal_Financeiro
         protected void gvUsuario_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "Edit")
-                Response.Redirect("CadastroUsuario.aspx?Codigo=" + e.CommandArgument);
+                Response.Redirect(URL.CADASTRO_USUARIO + "?Codigo=" + e.CommandArgument);
         }
 
         protected void gvUsuario_RowDataBound(object sender, GridViewRowEventArgs e)

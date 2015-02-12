@@ -57,11 +57,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CadastroMovimento.aspx" />
     <Content Include="CadastroUsuario.aspx" />
     <Content Include="Index.aspx" />
     <Content Include="ListaUsuario.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="css\style.css" />
+    <None Include="Properties\PublishProfiles\Teste.pubxml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
@@ -74,6 +76,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CadastroMovimento.aspx.cs">
+      <DependentUpon>CadastroMovimento.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastroMovimento.aspx.designer.cs">
+      <DependentUpon>CadastroMovimento.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CadastroUsuario.aspx.cs">
       <DependentUpon>CadastroUsuario.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

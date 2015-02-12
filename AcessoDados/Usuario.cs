@@ -65,7 +65,27 @@ namespace AcessoDados
 
         public bool Excluir(Entidades.Usuario entidade)
         {
-            throw new NotImplementedException();
+            try
+            {
+                conexao.Open();
+                sql = @"DELETE USUARIO WHERE USU_ID = @ID";
+                comando = new SqlCommand(sql, conexao);
+                comando.Parameters.Add(new SqlParameter
+                {
+                    ParameterName = "@ID",
+                    Value = entidade.Id
+                });
+                
+                return comando.ExecuteNonQuery() == 1;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                conexao.Close();
+            }
         }
 
         public List<Entidades.Usuario> Selecionar(string where)
