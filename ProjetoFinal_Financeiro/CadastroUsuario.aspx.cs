@@ -16,7 +16,7 @@ namespace ProjetoFinal_Financeiro
         {
             if (Request.QueryString["Codigo"] != null)
             {
-                Entidades.Usuario u = rnUsuario.Selecionar();
+                Entidades.Usuario u = rnUsuario.Selecionar("")[0];
                 txtNome.Text = u.Nome;
                 txtLogin.Text = u.Login;
                 txtSenha.Text = u.Senha;
