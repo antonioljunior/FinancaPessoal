@@ -24,5 +24,14 @@ namespace Extensoes
 
             return null;
         }
+
+        public static string RemoverMascara(this string valor)
+        {
+            return valor.Replace(".", "").
+                Replace("-", "").
+                Replace("(", "").
+                Replace(")", "").
+                Replace("/", "");
+        }
     }
 }

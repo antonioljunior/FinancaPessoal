@@ -5,16 +5,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <script src="Scripts/jquery-2.1.3.min.js"></script>
+    <script src="Scripts/jquery.inputmask/jquery.inputmask.js"></script>
+    <link href="css/style.css" rel="stylesheet" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(":input").inputmask();
+        });
+    </script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-        <h1><center>Finanças Pessoais</center></h1>
-        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">        
-        </asp:ContentPlaceHolder>
-    </div>
+        <div>
+            <h1>
+                <center>Finanças Pessoais</center>
+            </h1>
+            <h3>
+                <rigth>Bem vindo: <asp:Literal ID="ltNome"  runat="server" /></rigth>
+            </h3>
+            <asp:Menu ID="Menu1" runat="server" Orientation="Vertical">
+                <Items>
+                    <asp:MenuItem Text="Cadastros">
+                        <asp:MenuItem Text="Usuário" NavigateUrl="~/ListaUsuario.aspx" />
+                        <asp:MenuItem Text="Categoria" NavigateUrl="~/ListaUsuario.aspx" />
+                    </asp:MenuItem>
+                    <asp:MenuItem Text="Movimento" NavigateUrl="~/Login.aspx" />
+                </Items>
+            </asp:Menu>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
     </form>
 </body>
 </html>

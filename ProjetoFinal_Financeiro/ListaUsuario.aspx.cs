@@ -11,7 +11,9 @@ namespace ProjetoFinal_Financeiro
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            RegraNegocio.Usuario u = new RegraNegocio.Usuario();
+            gvUsuario.DataSource = u.ListarTodos();
+            gvUsuario.DataBind();
         }
     }
 }

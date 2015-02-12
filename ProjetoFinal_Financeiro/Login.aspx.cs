@@ -30,13 +30,7 @@ namespace ProjetoFinal_Financeiro
                 Response.Redirect(URL.INDEX);
             }
             else
-            {
-                ScriptManager.RegisterClientScriptBlock(this,
-                    this.GetType(),
-                    Guid.NewGuid().ToString(),
-                    "alert('Login ou senha incorretos');",
-                    true);
-            }
+                Mensagem.Alerta(this, "Login ou senha incorretos");
         }
     }
 }

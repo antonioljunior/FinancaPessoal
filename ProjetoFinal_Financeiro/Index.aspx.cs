@@ -11,8 +11,6 @@ namespace ProjetoFinal_Financeiro
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Contexto.Usuario != null)
-                ltNome.Text = Contexto.Usuario.Nome;
         }
     }
 }

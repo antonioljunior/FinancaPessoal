@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using Extensoes;
 using Interfaces;
+using System.Data;
 
 namespace AcessoDados
 {
@@ -15,40 +16,14 @@ namespace AcessoDados
         {
             try
             {
-                base.conexao.Open();
-                sql = @"SELECT USU_ID, USU_NOME, USU_LOGIN, USU_SENHA,
-                               USU_EMAIL, USU_DT_CRIACAO, USU_CPF
-                        FROM USUARIO
-                        WHERE USU_LOGIN = @LOGIN
-                        AND USU_SENHA = @SENHA";
+                string where = string.Format(@"WHERE USU_LOGIN = '{0}'
+                                               AND USU_SENHA = '{1}'", login, senha);
 
-                base.comando = new SqlCommand(sql, base.conexao);
-                base.comando.Parameters.Add(new SqlParameter
-                {
-                    ParameterName = "@LOGIN",
-                    Value = login
-                });
-                base.comando.Parameters.Add(new SqlParameter
-                {
-                    ParameterName = "@SENHA",
-                    Value = senha
-                });
-                base.dataAdapter = new SqlDataAdapter(base.comando);
-                base.dataAdapter.Fill(dataTable);
-                var retorno = new Entidades.Usuario();
+                var retorno = Selecionar(where);
+                if (retorno.Count == 1)
+                    return retorno[0];
 
-                if (dataTable.Rows.Count == 1)
-                {
-                    retorno.Id = dataTable.Rows[0]["USU_ID"].ToInt();
-                    retorno.Nome = dataTable.Rows[0]["USU_NOME"].ToString();
-                    retorno.Login = dataTable.Rows[0]["USU_LOGIN"].ToString();
-                    retorno.Senha = dataTable.Rows[0]["USU_SENHA"].ToString();
-                    retorno.Email = dataTable.Rows[0]["USU_EMAIL"].ToString();
-                    retorno.DataCriacao = dataTable.Rows[0]["USU_DT_CRIACAO"].ToDateTime();
-                    retorno.Cpf = dataTable.Rows[0]["USU_CPF"].ToString();
-                }
-
-                return retorno;
+                return new Entidades.Usuario();
             }
             catch (Exception)
             {
@@ -59,26 +34,28 @@ namespace AcessoDados
                 base.conexao.Close();
             }
         }
-        
+
         public bool Salvar(Entidades.Usuario entidade)
         {
             try
             {
-                base.conexao.Open();
+                conexao.Open();
 
-                comando = new SqlCommand(sql, conexao);
+                comando = new SqlCommand();
                 AdicionarParametros(entidade);
 
                 if (entidade.Id > 0)
-                    AtualizarUsuario(entidade, sql);
+                    AtualizarUsuario(entidade);
                 else
-                    InserirUsuario(entidade, sql);
+                    InserirUsuario(entidade);
 
+                comando.Connection = conexao;
+                comando.CommandText = sql;
                 return comando.ExecuteNonQuery() == 1;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
             finally
             {
@@ -93,10 +70,52 @@ namespace AcessoDados
 
         public List<Entidades.Usuario> Selecionar(string where)
         {
-            throw new NotImplementedException();
+            try
+            {
+                conexao.Open();
+                sql = @"SELECT [USU_ID]
+                              ,[USU_NOME]
+                              ,[USU_LOGIN]
+                              ,[USU_SENHA]
+                              ,[USU_EMAIL]
+                              ,[USU_DT_CRIACAO]
+                              ,[USU_CPF]
+                          FROM [Financa_Pessoal].[dbo].[USUARIO]
+                        " + where;
+
+                comando = new SqlCommand(sql, conexao);
+                dataAdapter = new SqlDataAdapter(comando);
+                dataAdapter.Fill(dataTable);
+                return MapearUsuario().ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                conexao.Close();
+            }
         }
-        
+
         #region Privados
+
+        private IEnumerable<Entidades.Usuario> MapearUsuario()
+        {
+            foreach (DataRow row in dataTable.Rows)
+            {
+                yield return new Entidades.Usuario()
+                 {
+                     Id = row["USU_ID"].ToInt(),
+                     Nome = row["USU_NOME"].ToString(),
+                     Login = row["USU_LOGIN"].ToString(),
+                     Senha = row["USU_SENHA"].ToString(),
+                     Email = row["USU_EMAIL"].ToString(),
+                     DataCriacao = row["USU_DT_CRIACAO"].ToDateTime(),
+                     Cpf = row["USU_CPF"].ToString()
+                 };
+            }
+        }
 
         private void AdicionarParametros(Entidades.Usuario entidade)
         {
@@ -127,7 +146,7 @@ namespace AcessoDados
             });
         }
 
-        private void InserirUsuario(Entidades.Usuario entidade, string sql)
+        private void InserirUsuario(Entidades.Usuario entidade)
         {
             sql = @"INSERT INTO [Financa_Pessoal].[dbo].[USUARIO]
                                        ([USU_NOME]
@@ -151,7 +170,7 @@ namespace AcessoDados
             });
         }
 
-        private void AtualizarUsuario(Entidades.Usuario entidade, string sql)
+        private void AtualizarUsuario(Entidades.Usuario entidade)
         {
             sql = @"UPDATE [Financa_Pessoal].[dbo].[USUARIO]
                                          SET [USU_NOME] = @NOME

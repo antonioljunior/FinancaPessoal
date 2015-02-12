@@ -13,6 +13,8 @@ namespace ProjetoFinal_Financeiro
         {
             if (Contexto.Usuario == null)
                 Response.Redirect(URL.LOGIN);
+            else
+                ltNome.Text = Contexto.Usuario.Nome;
         }
     }
 }

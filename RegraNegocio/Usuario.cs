@@ -32,7 +32,14 @@ namespace RegraNegocio
 
         public List<Entidades.Usuario> Selecionar(string where)
         {
-            throw new NotImplementedException();
+            AcessoDados.Usuario u = new AcessoDados.Usuario();
+            return u.Selecionar("");
+        }
+
+        public List<Entidades.Usuario> ListarTodos()
+        {
+            AcessoDados.Usuario u = new AcessoDados.Usuario();
+            return u.Selecionar(string.Empty);
         }
     }
 }
